@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"errors"
-	"gitea.viles.uk/dcp/web-framework/auth"
-	"gitea.viles.uk/dcp/web-framework/responses"
+	"github.com/drew-viles/go-web-framework/auth"
+	"github.com/drew-viles/go-web-framework/responses"
 	"log"
 	"net/http"
 )

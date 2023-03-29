@@ -2,10 +2,10 @@ package app
 
 import (
 	"bytes"
-	"gitea.viles.uk/dcp/web-framework/environment"
-	"gitea.viles.uk/dcp/web-framework/erroring"
-	"gitea.viles.uk/dcp/web-framework/routing"
-	"gitea.viles.uk/dcp/web-framework/validation"
+	"github.com/drew-viles/go-web-framework/environment"
+	"github.com/drew-viles/go-web-framework/erroring"
+	"github.com/drew-viles/go-web-framework/routing"
+	"github.com/drew-viles/go-web-framework/validation"
 	"github.com/gorilla/mux"
 	"io"
 	"net/http"

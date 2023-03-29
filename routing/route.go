@@ -2,7 +2,7 @@ package routing
 
 import (
 	"fmt"
-	"gitea.viles.uk/dcp/web-framework/middleware"
+	"github.com/drew-viles/go-web-framework/middleware"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"

@@ -3,8 +3,8 @@ package auth
 import (
 	"encoding/json"
 	"fmt"
-	"gitea.viles.uk/dcp/web-framework/environment"
 	jwt "github.com/dgrijalva/jwt-go"
+	"github.com/drew-viles/go-web-framework/environment"
 	"github.com/google/uuid"
 	"log"
 	"net/http"

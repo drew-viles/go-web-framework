@@ -44,10 +44,10 @@ package main
 import (
 	"context"
 	"fmt"
-	"gitea.viles.uk/dcp/web-framework/app"
-	"gitea.viles.uk/dcp/web-framework/environment"
-	"gitea.viles.uk/dcp/web-framework/responses"
-	"gitea.viles.uk/dcp/web-framework/routing"
+	"github.com/drew-viles/go-web-framework/app"
+	"github.com/drew-viles/go-web-framework/environment"
+	"github.com/drew-viles/go-web-framework/responses"
+	"github.com/drew-viles/go-web-framework/routing"
 	"log"
 	"net/http"
 	"os"
@@ -82,7 +82,7 @@ func WithoutSSL() {
 	server := &YourServerConfig{
 		&app.Server{},
 	}
-	server.Config, err = environment.Initialise()
+	server.Config, err = environment.ReadEnvironmentFile()
 	if err != nil {
 		log.Fatalln(err)
 	}
