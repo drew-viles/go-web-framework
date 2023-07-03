@@ -58,21 +58,24 @@ func SetupRoutes(routes *[]Route, router *mux.Router) {
 
 			if route.RequiresAuthorisation {
 				logMessage = fmt.Sprintf("%s AUTHENTICATED %s Route: %s, on path: %s", logMessage, route.RequestMethod, route.Name, route.Path)
-				routeHandler = middleware.SetMiddlewareAuthorisation(routeHandler)
+				router.Use(middleware.SetMiddlewareAuthorisation)
+				//routeHandler = middleware.SetMiddlewareAuthorisation(routeHandler)
 			} else {
 				logMessage = fmt.Sprintf("%s UNAUTHENTICATED %s Route: %s, on path: %s", logMessage, route.RequestMethod, route.Name, route.Path)
 			}
 
 			if route.AccessLevel > 0 {
 				logMessage = fmt.Sprintf("%s WITH access level %d", logMessage, route.AccessLevel)
-				routeHandler = middleware.SetMiddlewareAuthentication(routeHandler, route.AccessLevel, route.AccessLevel)
+				amw := middleware.AuthenticationMiddleware{UserAccessLevel: route.AccessLevel, RouteAccessLevel: route.AccessLevel}
+				router.Use(amw.SetMiddlewareAuthentication)
+				//routeHandler = middleware.SetMiddlewareAuthentication(routeHandler, route.AccessLevel, route.AccessLevel)
 			} else {
 				logMessage = fmt.Sprintf("%s WITHOUT an access level", logMessage)
 			}
 
 			// HasJSONResponse must be the last check
 			if route.HasJSONResponse {
-				routeHandler = middleware.SetMiddlewareJSON(routeHandler)
+				router.Use(middleware.SetMiddlewareJSON)
 			} else {
 				router.Headers("Content-Type", "text/html")
 			}
