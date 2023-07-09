@@ -37,6 +37,7 @@ type Route struct {
 	RequiresAuthentication bool
 	AccessLevel            int
 	HasJSONResponse        bool
+	EnableCORSOriginAll    bool
 	QueryParams            []string
 }
 
@@ -58,26 +59,28 @@ func SetupRoutes(routes *[]Route, router *mux.Router) {
 
 			if route.RequiresAuthorisation {
 				logMessage = fmt.Sprintf("%s AUTHENTICATED %s Route: %s, on path: %s", logMessage, route.RequestMethod, route.Name, route.Path)
-				router.Use(middleware.SetMiddlewareAuthorisation)
-				//routeHandler = middleware.SetMiddlewareAuthorisation(routeHandler)
+				routeHandler = middleware.SetMiddlewareAuthorisation(routeHandler)
 			} else {
 				logMessage = fmt.Sprintf("%s UNAUTHENTICATED %s Route: %s, on path: %s", logMessage, route.RequestMethod, route.Name, route.Path)
 			}
 
 			if route.AccessLevel > 0 {
 				logMessage = fmt.Sprintf("%s WITH access level %d", logMessage, route.AccessLevel)
-				amw := middleware.AuthenticationMiddleware{UserAccessLevel: route.AccessLevel, RouteAccessLevel: route.AccessLevel}
-				router.Use(amw.SetMiddlewareAuthentication)
-				//routeHandler = middleware.SetMiddlewareAuthentication(routeHandler, route.AccessLevel, route.AccessLevel)
+				routeHandler = middleware.SetMiddlewareAuthentication(routeHandler, route.AccessLevel, route.AccessLevel)
 			} else {
 				logMessage = fmt.Sprintf("%s WITHOUT an access level", logMessage)
 			}
 
 			// HasJSONResponse must be the last check
 			if route.HasJSONResponse {
-				router.Use(middleware.SetMiddlewareJSON)
+				routeHandler = middleware.JSONContentTypeMiddleware(routeHandler)
 			} else {
 				router.Headers("Content-Type", "text/html")
+			}
+			// HasJSONResponse must be the last check
+			if route.EnableCORSOriginAll {
+				routeHandler = middleware.CORSAllowOriginAllMiddleware(routeHandler)
+				logMessage = fmt.Sprintf("%s with Access-Control-Allow-Origin: *", logMessage)
 			}
 
 			if len(route.QueryParams) > 0 {

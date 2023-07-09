@@ -20,9 +20,10 @@ import (
 	"net/http"
 )
 
-func JSONContentTypeMiddleware(next http.HandlerFunc) http.HandlerFunc {
+// CORSAllowOriginAllMiddleware sets the header for Access-Control-Allow-Origin = "*"
+func CORSAllowOriginAllMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		next(w, r)
 	}
 }
