@@ -38,10 +38,6 @@ type Server struct {
 // Initialise create a new Gorilla mux router and initialises the []routing.Route passed into it
 func (s *Server) Initialise(routes *[]routing.Route) {
 	s.Router = mux.NewRouter()
-	s.initialiseRoutes(routes)
-}
-
-func (s *Server) initialiseRoutes(routes *[]routing.Route) {
 	routing.SetupRoutes(routes, s.Router)
 }
 

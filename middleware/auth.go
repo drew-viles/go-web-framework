@@ -24,19 +24,19 @@ import (
 	"net/http"
 )
 
-// SetMiddlewareAuthentication allows the request to continue if the provided user access level is greater than the route's access level
-func SetMiddlewareAuthentication(next http.HandlerFunc, userAccessLevel, routeAccessLevel int) http.HandlerFunc {
+// AuthenticationMiddleware allows the request to continue if the provided user access level is greater than the route's access level
+func AuthenticationMiddleware(next http.HandlerFunc, userAccessLevel, routeAccessLevel int) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if userAccessLevel < routeAccessLevel {
-			responses.ERROR(w, http.StatusUnauthorized, errors.New("unauthorized"))
+			responses.ERROR(w, http.StatusUnauthorized, errors.New("not authenticated"))
 			return
 		}
 		next(w, r)
 	}
 }
 
-// SetMiddlewareAuthorisation allows the request to continue if a provided jwt is valid.
-func SetMiddlewareAuthorisation(next http.HandlerFunc) http.HandlerFunc {
+// AuthorisationMiddleware allows the request to continue if a provided jwt is valid.
+func AuthorisationMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := auth.TokenValid(r)
 		if err != nil {
