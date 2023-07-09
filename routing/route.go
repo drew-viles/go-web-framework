@@ -59,14 +59,14 @@ func SetupRoutes(routes *[]Route, router *mux.Router) {
 
 			if route.RequiresAuthorisation {
 				logMessage = fmt.Sprintf("%s AUTHENTICATED %s Route: %s, on path: %s", logMessage, route.RequestMethod, route.Name, route.Path)
-				routeHandler = middleware.SetMiddlewareAuthorisation(routeHandler)
+				routeHandler = middleware.AuthorisationMiddleware(routeHandler)
 			} else {
 				logMessage = fmt.Sprintf("%s UNAUTHENTICATED %s Route: %s, on path: %s", logMessage, route.RequestMethod, route.Name, route.Path)
 			}
 
 			if route.AccessLevel > 0 {
 				logMessage = fmt.Sprintf("%s WITH access level %d", logMessage, route.AccessLevel)
-				routeHandler = middleware.SetMiddlewareAuthentication(routeHandler, route.AccessLevel, route.AccessLevel)
+				routeHandler = middleware.AuthenticationMiddleware(routeHandler, route.AccessLevel, route.AccessLevel)
 			} else {
 				logMessage = fmt.Sprintf("%s WITHOUT an access level", logMessage)
 			}
