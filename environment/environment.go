@@ -61,14 +61,10 @@ func ReadEnvironmentFile() (*ConfigMap, error) {
 			},
 		},
 		DB: db{
-			EnableGORM: viper.GetBool("db.enable_gorm"),
-			Type:       viper.GetString("db.type"),
-			Host:       viper.GetString("db.host"),
-			Port:       viper.GetInt("db.port"),
-			Name:       viper.GetString("db.name"),
-			Username:   viper.GetString("db.username"),
-			Password:   viper.GetString("db.password"),
-			Schema:     viper.GetString("db.schema"),
+			Host:     viper.GetString("db.host"),
+			Port:     viper.GetInt("db.port"),
+			Username: viper.GetString("db.username"),
+			Password: viper.GetString("db.password"),
 		},
 		Stripe: configStripe{
 			SecretKey:     viper.GetString("stripe.secret_key"),

@@ -52,14 +52,10 @@ type token struct {
 }
 
 type db struct {
-	EnableGORM bool   `yaml:"enable_gorm" validate:"omitempty"`
-	Type       string `yaml:"type" validate:"omitempty"`
-	Host       string `yaml:"host" validate:"omitempty"`
-	Port       int    `yaml:"port" validate:"omitempty"`
-	Name       string `yaml:"name" validate:"omitempty"`
-	Username   string `yaml:"username" validate:"omitempty"`
-	Password   string `yaml:"password" validate:"omitempty"`
-	Schema     string `yaml:"schema" validate:"omitempty"`
+	Host     string `yaml:"host" validate:"omitempty"`
+	Port     int    `yaml:"port" validate:"omitempty"`
+	Username string `yaml:"username" validate:"omitempty"`
+	Password string `yaml:"password" validate:"omitempty"`
 }
 
 type configStripe struct {
